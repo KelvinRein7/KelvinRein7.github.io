@@ -203,7 +203,7 @@ a:hover{
   width: 70px;
 }
 
-#mongoDB, #git, #vm{
+#mongoDB, #git, #mySQL{
   height: 70px;
   width: 70px;
 }
@@ -241,6 +241,7 @@ a:hover{
 }
 .user-projects {
   margin: 40px auto;
+  font-size: 18px;
 }
 .user-projects img{
   max-width: 100%;
@@ -258,7 +259,7 @@ img.sudokuGIF{
 }
 .user-projects li {
   color: #1a222c;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 .user-projects p {
   margin-right: 5px;
