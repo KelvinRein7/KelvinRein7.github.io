@@ -96,12 +96,11 @@ a:hover{
   animation-timing-function: linear;
 }
 
-#page2{
+/* #page2{
   width: 100vw;
-  /* scroll stop page 2 */
   height: 100vh;
   position: absolute;
-}
+} */
 
 /* #summary{
   text-align: center;
@@ -281,3 +280,4 @@ a:hover{
   font-style: bold;
 }
 /* resume */
+
