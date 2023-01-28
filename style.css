@@ -242,11 +242,17 @@ a:hover{
 .user-projects {
   margin: 40px auto;
 }
-.user-projects img {
+.user-projects img{
   max-width: 100%;
   height: auto;
   border-radius: 5px;
 }
+
+img.sudokuGIF{
+  max-width: 100%;
+  height: 330px;
+}
+
 .user-projects h5, body {
   margin: 0;
 }
@@ -281,3 +287,24 @@ a:hover{
 }
 /* resume */
 
+#project-link{
+  position: relative;
+  text-align: center;
+  display: block;
+  width: 100px;
+  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  color: #1a222c !important;
+  padding: 1px;
+  border: 1px solid #1a222c;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#project-link:hover{
+  background-color: #1a222c;
+  color: wheat !important;
+  font-style: bold;
+}
