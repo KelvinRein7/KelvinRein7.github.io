@@ -197,3 +197,7 @@ img.sudokuGIF{
   color: wheat !important;
   font-style: bold;
 }
+
+#social-icons:hover{
+  color: #1a222c;
+}
