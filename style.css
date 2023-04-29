@@ -28,8 +28,11 @@ body{
   font-weight: lighter;
 }
 
+#social-icons:hover{
+  color: #4b6483 !important;
+}
+
 a{
-  /* color: wheat;  */
   color: #f5deb3 !important;
 }
 
@@ -196,8 +199,4 @@ img.sudokuGIF{
   background-color: #1a222c;
   color: wheat !important;
   font-style: bold;
-}
-
-#social-icons:hover{
-  color: #1a222c;
 }
