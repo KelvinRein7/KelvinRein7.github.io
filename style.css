@@ -7,7 +7,6 @@ body{
 }
 
 #about-me{
-  /* color: wheat; */
   color: #f5deb3;
   text-align: center;
   position: absolute;
@@ -17,40 +16,41 @@ body{
   display: block;
 }
 
-#about-me #my-name{
+#about-me, #my-name{
   font-size: 70px;
   font-weight: lighter;
   line-height: 2.6cm;
 }
 
-#about-me #my-role{
+#about-me, #my-role{
   font-size: 40px;
   font-weight: lighter;
 }
 
-#social-icons:hover{
-  color: #4b6483 !important;
-}
-
-a{
-  color: #f5deb3 !important;
-}
-
-a:hover{
-  color: #4b6483;
-}
-
-#social-icons{
+#about-me, #social-icons{
   font-size: 40px;
   line-height: 1cm;
 }
 
+#mail, #linkedin, #twitter, #github{
+  color: wheat;
+}
+
+#mail:hover, #linkedin:hover, #twitter:hover, #github:hover{
+  color: rgb(81, 81, 181);
+}
+
 #about-me-link, #projects-link, #experiences{
+  color: wheat;
   text-decoration: none;
   font-size: 25px;
   line-height: 2cm;
   margin-left: 35px;
   margin-right: 35px;
+}
+
+#about-me-link:hover, #projects-link:hover, #experiences:hover{
+  color: rgb(81, 81, 181);
 }
 
 #particles-js {
@@ -63,6 +63,7 @@ a:hover{
   background-size: cover;
   background-attachment: fixed;
 }
+
 #particles-js .particles-js-canvas-el {
   width: 100vw!important;
   height: 100vh!important;
@@ -89,6 +90,10 @@ a:hover{
     margin: 0 auto;
     font-size: 30px;
     text-align: center;
+}
+
+.scroll-down:hover{
+  color: rgb(81, 81, 181);
 }
 
 #down{
@@ -130,31 +135,6 @@ a:hover{
   font-size: 20px;
   margin: 25px auto;
 }
-.user-projects {
-  margin: 40px auto;
-  font-size: 18px;
-}
-.user-projects img{
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-}
-
-img.sudokuGIF{
-  max-width: 100%;
-  height: 330px;
-}
-
-.user-projects h5, body {
-  margin: 0;
-}
-.user-projects li {
-  color: #1a222c;
-  font-size: 1.3rem;
-}
-.user-projects p {
-  margin-right: 5px;
-}
 
 /* resume */
 #resume{
@@ -178,25 +158,3 @@ img.sudokuGIF{
   font-style: bold;
 }
 /* resume */
-
-#project-link{
-  position: relative;
-  text-align: center;
-  display: block;
-  width: 100px;
-  margin: auto;
-  margin-left: auto;
-  margin-right: auto;
-  color: #1a222c !important;
-  padding: 1px;
-  border: 1px solid #1a222c;
-  border-radius: 5px;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-#project-link:hover{
-  background-color: #1a222c;
-  color: wheat !important;
-  font-style: bold;
-}
