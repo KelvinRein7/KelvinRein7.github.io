@@ -127,7 +127,76 @@ function renderHero() {
                 <span class="social-icon__tip" aria-hidden="true">GitHub</span>
               </a>
             </li>
-            <li><a href="mailto:${escapeHtml(site.email)}">Email</a></li>
+            <li class="hero__mail">
+              <button
+                type="button"
+                class="hero__mail-trigger"
+                id="mail-open"
+                aria-expanded="false"
+                aria-controls="mail-win"
+              >
+                Email
+              </button>
+              <div
+                class="mail-win"
+                id="mail-win"
+                hidden
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="mail-win-title"
+              >
+                <div class="mail-win__titlebar">
+                  <span class="mail-win__title" id="mail-win-title">
+                    <span class="mail-win__icon" aria-hidden="true"></span>
+                    New Message.exe
+                  </span>
+                  <button type="button" class="mail-win__close" id="mail-close" aria-label="Close">
+                    ✕
+                  </button>
+                </div>
+                <form class="mail-win__body" id="mail-form" novalidate>
+                  <p class="mail-win__to">To: ${escapeHtml(site.email)}</p>
+                  <div class="mail-win__field">
+                    <label for="mail-from">Your email</label>
+                    <input
+                      class="mail-win__input"
+                      id="mail-from"
+                      name="email"
+                      type="email"
+                      autocomplete="email"
+                      required
+                      placeholder="you@example.com"
+                    />
+                  </div>
+                  <div class="mail-win__field">
+                    <label for="mail-message">Message</label>
+                    <textarea
+                      class="mail-win__input mail-win__input--area"
+                      id="mail-message"
+                      name="message"
+                      rows="4"
+                      required
+                      placeholder="Say hi…"
+                    ></textarea>
+                  </div>
+                  <input
+                    class="mail-win__honeypot"
+                    type="text"
+                    name="_gotcha"
+                    tabindex="-1"
+                    autocomplete="off"
+                    aria-hidden="true"
+                  />
+                  <p class="mail-win__status" id="mail-status" role="status" aria-live="polite"></p>
+                  <div class="mail-win__actions">
+                    <button type="button" class="mail-win__btn" id="mail-cancel">Cancel</button>
+                    <button type="submit" class="mail-win__btn mail-win__btn--primary" id="mail-send">
+                      Send
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </li>
           </ul>
           <p class="hero__sub-line reveal" data-reveal>${escapeHtml(site.subLine)}</p>
         </div>
@@ -434,7 +503,111 @@ function initExperienceToggle() {
   })
 }
 
+function initMailComposer() {
+  const openBtn = document.getElementById('mail-open')
+  const win = document.getElementById('mail-win')
+  const form = document.getElementById('mail-form')
+  const status = document.getElementById('mail-status')
+  const closeBtn = document.getElementById('mail-close')
+  const cancelBtn = document.getElementById('mail-cancel')
+  const sendBtn = document.getElementById('mail-send')
+  const fromInput = document.getElementById('mail-from')
+  if (!openBtn || !win || !form) return
+
+  const endpoint = `https://formsubmit.co/ajax/${encodeURIComponent(site.email)}`
+
+  function setOpen(next) {
+    win.hidden = !next
+    openBtn.setAttribute('aria-expanded', String(next))
+    if (next) {
+      status.textContent = ''
+      queueMicrotask(() => fromInput?.focus())
+    }
+  }
+
+  function close() {
+    setOpen(false)
+  }
+
+  openBtn.addEventListener('click', (e) => {
+    e.stopPropagation()
+    setOpen(win.hidden)
+  })
+
+  closeBtn?.addEventListener('click', close)
+  cancelBtn?.addEventListener('click', close)
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !win.hidden) close()
+  })
+
+  document.addEventListener('click', (e) => {
+    if (win.hidden) return
+    if (e.target.closest('.hero__mail')) return
+    close()
+  })
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const email = String(form.email.value || '').trim()
+    const message = String(form.message.value || '').trim()
+    const honeypot = String(form._gotcha.value || '').trim()
+
+    if (honeypot) {
+      status.textContent = 'Sent.'
+      form.reset()
+      setTimeout(close, 900)
+      return
+    }
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      status.textContent = 'Enter a valid email.'
+      fromInput?.focus()
+      return
+    }
+    if (!message) {
+      status.textContent = 'Write a short message.'
+      document.getElementById('mail-message')?.focus()
+      return
+    }
+
+    status.textContent = 'Sending…'
+    sendBtn.disabled = true
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          message,
+          _subject: `Portfolio message from ${email}`,
+          _template: 'table',
+          _replyto: email,
+        }),
+      })
+
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(data.message || 'Send failed')
+      }
+
+      status.textContent = 'Sent. Thanks!'
+      form.reset()
+      setTimeout(close, 1100)
+    } catch {
+      status.textContent = 'Couldn’t send. Try again or use Contact below.'
+    } finally {
+      sendBtn.disabled = false
+    }
+  })
+}
+
 render()
 initExperienceToggle()
+initMailComposer()
 initReveals()
 initSmoothScroll()
