@@ -1,7 +1,7 @@
 /** All portfolio copy — edit here, then refresh. */
 
 export const site = {
-  name: 'Kelvin Rein',
+  name: 'Gomu Gomu',
   oneLiner: 'I just try stuff. Some of it works.',
   subLine: 'Computer Science Grad · Carleton University',
   location: 'Ottawa, ON, Canada',
@@ -14,17 +14,22 @@ export const site = {
 
 /** Portrait / frame extras for when we redesign the hero UI */
 export const hero = {
+  /** Always rendered with the Luffy peek — keep as one unit in the hero. */
+  displayName: 'Kelvin Rein',
   verticalName: 'Data x Web x AI/ML',
   /** Set to an image path under /public when available, e.g. '/portrait.jpg' */
-  portrait: '/persona.png',
+  portrait: null,
   portraitAlt: 'Kelvin Rein persona',
 }
 
 export const about = {
   heading: 'About',
   paragraphs: [
-    "I studied Computer Science at Carleton. Since then I've mostly just been trying things: cleaning up messy datasets, making dashboards people actually open, shipping websites for education companies, teaching Python to a few hundred students. These days I keep the website and database running for an education company on my own — when something breaks, it's my problem.",
-    "The pattern with me is that I try stuff. I'll buy the domain, build the thing, and spend the weekend on an idea just to see if it works. Some experiments cost me money and go nowhere. That's fine — that's how I learn what's worth building.",
+    "I've been learning through building — from cleaning messy datasets and creating dashboards to shipping websites and teaching Python to hundreds of students.",
+
+    "Today, I use AI as a force multiplier to learn faster, prototype ideas, debug problems, and turn concepts into working products.",
+
+    "Each project, success or failure, teaches me something new about building better.",
   ],
 }
 
@@ -61,7 +66,7 @@ export const experience = [
     story:
       'I worked with 10,000+ real consumer complaint records for a federal agency. I built and evaluated NLP models to automatically classify complaints, and automated ETL pipelines that cut manual processing by ~30%. My first taste of ML with real-world stakes — government data, real consumers.',
     tags: ['Python', 'SQL', 'NLP', 'ETL'],
-    photos: [],
+    photos: ['/experience/fcac.png'],
     link: null,
   },
   {
@@ -73,7 +78,7 @@ export const experience = [
     story:
       "I'm the entire tech department. I maintain and evolve the company's website and database single-handedly — infrastructure, content, data, all of it. When something breaks at BladeX, I'm the one who fixes it; when something new is needed, I'm the one who builds it.",
     tags: ['Web', 'Database', 'Analytics'],
-    photos: [],
+    photos: ['/experience/bladex.png'],
     link: 'https://bladex-edu.vercel.app/Home',
     linkLabel: 'Website',
   },
@@ -117,20 +122,22 @@ export const projects = [
     story:
       '34,026 Statistics Canada records, 27 metro areas, one question — what actually happened to Canadian housing? I used window functions and statistical aggregations to find the booms and corrections, then interactive Tableau visuals to explain COVID-era acceleration and why regions diverged.',
     tech: ['Python', 'SQL (BigQuery)', 'Tableau'],
-    link: null,
-    linkLabel: 'View project',
-    photos: [],
+    link: 'https://khunmainportfolio.notion.site/Canadian-Housing-Prices-Booms-Corrections-Regional-Divergence-34594b47cb7d80c2a5f9d9193e498c8b',
+    linkLabel: 'Project Link',
+    photos: ['/projects/housing.png'],
     featured: true,
   },
   {
     id: 'exp-1',
-    title: 'Untitled experiment',
+    title: 'Tuduist',
     status: 'experiment',
-    story: "Something I'm trying — domain bought, weekend spent, outcome TBD.",
-    tech: [],
-    link: null,
-    linkLabel: null,
+    story:
+      'The simplest productivity app you can find on App Store — tasks, focus, and the usual “will I actually use this?” experiment. I actually use it daily :D',
+    tech: ['iOS', 'Swift'],
+    link: 'https://apps.apple.com/ca/app/tuduist/id6782297759',
+    linkLabel: 'App Store',
     photos: [],
+    logo: '/projects/tudu-logo.png',
     featured: false,
   },
   {

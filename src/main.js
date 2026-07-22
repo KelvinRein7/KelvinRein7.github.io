@@ -26,6 +26,8 @@ function techList(tags) {
 
 function photoSlots(photos, label, minSlots = 2) {
   const items = [...(photos || [])]
+  if (!items.length && minSlots <= 0) return ''
+
   while (items.length < minSlots) items.push(null)
 
   return `
@@ -62,7 +64,13 @@ function letterSpans(text) {
 function renderNav() {
   return `
     <header class="site-header">
-      <a class="logo" href="#top">${escapeHtml(site.name)}</a>
+      <a class="logo logo--clock" href="#top" aria-label="Back to top">
+        <span class="retro-clock" aria-hidden="true">
+          <span class="retro-clock__bezel">
+            <span class="retro-clock__lcd" id="retro-clock">00:00:00</span>
+          </span>
+        </span>
+      </a>
       <!-- Nav hovers adapted from Uiverse.io by geekgao -->
       <nav class="nav nav--dock" aria-label="Primary">
         <a class="nav__item nav__item--scale" href="#about">About</a>
@@ -78,42 +86,72 @@ function renderNav() {
 
 function portraitMarkup() {
   if (hero.portrait) {
-    return `<img class="hero__portrait-img" src="${escapeHtml(hero.portrait)}" alt="${escapeHtml(hero.portraitAlt)}" />`
+    const src = escapeHtml(hero.portrait)
+    const alt = escapeHtml(hero.portraitAlt)
+    const webp = src.replace(/\.(png|jpe?g|gif)$/i, '.webp')
+    return `
+      <picture>
+        <source srcset="${webp}" type="image/webp" />
+        <img
+          class="hero__portrait-img"
+          src="${src}"
+          alt="${alt}"
+          width="960"
+          height="1440"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </picture>
+    `
   }
+  return ''
+}
+
+/** Name + Luffy peek are one unit — never render the label without the peek. */
+function namePeekMarkup() {
   return `
-    <div class="hero__portrait-placeholder" aria-hidden="true">
-      <span class="hero__portrait-mark">${escapeHtml(site.name.charAt(0))}</span>
-    </div>
+    <span class="luffy-peek" tabindex="0">
+      <img class="peek-body" src="/assets/peek.png" alt="" draggable="false" />
+      <img class="peek-hands" src="/assets/peek-hands.png" alt="" draggable="false" />
+      <span class="peek-label">${escapeHtml(hero.displayName)}</span>
+    </span>
   `
 }
 
 function renderHero() {
-  return `
-    <section class="hero" id="top">
-      <div class="hero__inner">
+  const portrait = portraitMarkup()
+  const visual = portrait
+    ? `
         <div class="hero__visual reveal" data-reveal>
           <p class="hero__name-vert" aria-hidden="true">${escapeHtml(hero.verticalName)}</p>
           <div class="hero__frame-wrap">
             <div class="hero__frame">
-              ${portraitMarkup()}
+              ${portrait}
               <span class="hero__frame-break" aria-hidden="true"></span>
             </div>
             <p class="hero__location">${escapeHtml(site.location)}</p>
           </div>
         </div>
+      `
+    : ''
+
+  return `
+    <section class="hero ${portrait ? '' : 'hero--no-portrait'}" id="top">
+      <div class="hero__inner">
+        ${visual}
         <div class="hero__copy">
           <h1 class="hero__greeting reveal" data-reveal>
-            <span class="luffy-peek" tabindex="0">
-              <img class="peek-body" src="/assets/peek.png" alt="" />
-              <img class="peek-hands" src="/assets/peek-hands.png" alt="" />
-              <span class="peek-label">Kelvin Rein</span>
-            </span>
+            ${namePeekMarkup()}
           </h1>
           <p class="hero__one-liner reveal" data-reveal>${escapeHtml(site.oneLiner)}</p>
+          ${
+            portrait
+              ? ''
+              : `<p class="hero__location hero__location--inline reveal" data-reveal>${escapeHtml(site.location)}</p>`
+          }
           <ul class="hero__socials reveal" data-reveal>
             <li><a href="${escapeHtml(site.linkedin)}" target="_blank" rel="noopener">LinkedIn</a></li>
             <li>
-              <!-- Icon tip from Uiverse.io by EcheverriaJesus (vanilla CSS) -->
               <a
                 class="social-icon social-icon--github"
                 href="${escapeHtml(site.github)}"
@@ -201,6 +239,12 @@ function renderHero() {
           <p class="hero__sub-line reveal" data-reveal>${escapeHtml(site.subLine)}</p>
         </div>
       </div>
+      <a class="hero__scroll" href="#about" aria-label="Scroll to about">
+        <svg class="hero__scroll-mouse" viewBox="0 0 24 36" aria-hidden="true">
+          <rect x="1" y="1" width="22" height="34" rx="11" ry="11" fill="none" stroke="currentColor" stroke-width="1.75" />
+          <circle class="hero__scroll-wheel" cx="12" cy="10" r="1.6" fill="currentColor" />
+        </svg>
+      </a>
     </section>
   `
 }
@@ -233,31 +277,32 @@ function renderAbout() {
 function renderExperience() {
   const visible = experience.filter((job) => !job.hidden)
 
-  const summary = visible
-    .map((job) => `<li>${escapeHtml(job.org)}</li>`)
-    .join('')
-
   const items = visible
     .map(
-      (job, index) => `
-      <article class="exp-item">
-        <div class="exp-item__meta">
-          <span class="exp-item__index">${String(index + 1).padStart(2, '0')}</span>
-          <div>
-            <h3 class="exp-item__role">${escapeHtml(job.role)}</h3>
-            <p class="exp-item__org">${escapeHtml(job.org)}${
-              job.link
-                ? ` (<a class="exp-item__site" href="${escapeHtml(job.link)}" target="_blank" rel="noopener">${escapeHtml(job.linkLabel || 'Website')}</a>)`
-                : ''
-            }</p>
-            <p class="exp-item__dates">${escapeHtml(job.dates)}${job.location ? ` · ${escapeHtml(job.location)}` : ''}</p>
+      (job, index) => {
+        const media = photoSlots(job.photos, job.org, 0)
+        return `
+      <article class="exp-item${media ? ' exp-item--media' : ''} reveal" data-reveal>
+        <div class="exp-item__body">
+          <div class="exp-item__meta">
+            <span class="exp-item__index">${String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="exp-item__role">${escapeHtml(job.role)}</h3>
+              <p class="exp-item__org">${escapeHtml(job.org)}${
+                job.link
+                  ? ` (<a class="exp-item__site" href="${escapeHtml(job.link)}" target="_blank" rel="noopener">${escapeHtml(job.linkLabel || 'Website')}</a>)`
+                  : ''
+              }</p>
+              <p class="exp-item__dates">${escapeHtml(job.dates)}${job.location ? ` · ${escapeHtml(job.location)}` : ''}</p>
+            </div>
           </div>
+          <p class="exp-item__story">${escapeHtml(job.story)}</p>
+          ${techList(job.tags)}
         </div>
-        <p class="exp-item__story">${escapeHtml(job.story)}</p>
-        ${techList(job.tags)}
-        ${photoSlots(job.photos, job.org)}
+        ${media}
       </article>
-    `,
+    `
+      },
     )
     .join('')
 
@@ -268,22 +313,7 @@ function renderExperience() {
           <h2>Experience</h2>
           <div class="data-rule" aria-hidden="true"></div>
         </div>
-        <div class="exp-panel reveal" data-reveal>
-          <ul class="exp-summary" aria-hidden="true">${summary}</ul>
-          <button
-            type="button"
-            class="exp-toggle"
-            id="exp-toggle"
-            aria-expanded="false"
-            aria-controls="exp-panel"
-          >
-            <span class="exp-toggle__label">Show experience</span>
-            <span class="exp-toggle__icon" aria-hidden="true"></span>
-          </button>
-          <div class="exp-panel__body" id="exp-panel" hidden>
-            <div class="exp-list">${items}</div>
-          </div>
-        </div>
+        <div class="exp-list">${items}</div>
       </div>
     </section>
   `
@@ -295,42 +325,55 @@ function renderProjects() {
 
   const liveItems = live
     .map((p) => {
-      const link =
+      const titleLink =
         p.link && p.linkLabel
-          ? `<div class="project__link"><a class="text-link" href="${escapeHtml(p.link)}" target="_blank" rel="noopener">${escapeHtml(p.linkLabel)}</a></div>`
+          ? ` <a class="project__title-link" href="${escapeHtml(p.link)}" target="_blank" rel="noopener">(${escapeHtml(p.linkLabel)})</a>`
           : ''
+      const media = photoSlots(p.photos, p.title, p.photos?.length ? 1 : 0)
 
       return `
-        <article class="project ${p.featured ? 'project--featured' : ''} reveal" data-reveal>
+        <article class="project${media ? ' project--media' : ''} ${p.featured ? 'project--featured' : ''} reveal" data-reveal>
           <div class="project__text">
             <div class="project__top">
-              <h3>${escapeHtml(p.title)}</h3>
+              <h3>${escapeHtml(p.title)}${titleLink}</h3>
             </div>
             <p class="project__story">${escapeHtml(p.story)}</p>
             ${techList(p.tech)}
-            ${link}
           </div>
-          ${photoSlots(p.photos, p.title, 2)}
+          ${media}
         </article>
       `
     })
     .join('')
 
   const experimentItems = experiments
-    .map(
-      (p) => `
-      <article class="project project--experiment reveal" data-reveal>
+    .map((p) => {
+      const titleLink =
+        p.link && p.linkLabel
+          ? ` <a class="project__title-link project__title-link--ink" href="${escapeHtml(p.link)}" target="_blank" rel="noopener">(${escapeHtml(p.linkLabel)})</a>`
+          : ''
+      const media = photoSlots(p.photos, p.title, p.photos?.length ? 1 : 0)
+      const corner = p.logo
+        ? `<div class="project__corner">
+              <img class="project__corner-logo" src="${escapeHtml(p.logo)}" alt="" aria-hidden="true" />
+            </div>`
+        : ''
+
+      return `
+      <article class="project project--experiment${media ? ' project--media' : ''}${p.logo ? ' project--logo' : ''} reveal" data-reveal>
         <div class="project__text">
           <div class="project__top">
-            <h3>${escapeHtml(p.title)}</h3>
+            <h3>${escapeHtml(p.title)}${titleLink}</h3>
             <span class="badge">Experiment</span>
           </div>
           <p class="project__story">${escapeHtml(p.story)}</p>
           ${techList(p.tech)}
         </div>
+        ${media}
+        ${corner}
       </article>
-    `,
-    )
+    `
+    })
     .join('')
 
   return `
@@ -487,20 +530,19 @@ function initSmoothScroll() {
   })
 }
 
-function initExperienceToggle() {
-  const btn = document.getElementById('exp-toggle')
-  const panel = document.getElementById('exp-panel')
-  if (!btn || !panel) return
+function initRetroClock() {
+  const el = document.getElementById('retro-clock')
+  if (!el) return
 
-  btn.addEventListener('click', () => {
-    const open = btn.getAttribute('aria-expanded') === 'true'
-    const next = !open
-    btn.setAttribute('aria-expanded', String(next))
-    panel.hidden = !next
-    btn.querySelector('.exp-toggle__label').textContent = next
-      ? 'Hide experience'
-      : 'Show experience'
-  })
+  const pad = (n) => String(n).padStart(2, '0')
+
+  function tick() {
+    const now = new Date()
+    el.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
+  }
+
+  tick()
+  window.setInterval(tick, 1000)
 }
 
 function initMailComposer() {
@@ -607,7 +649,7 @@ function initMailComposer() {
 }
 
 render()
-initExperienceToggle()
+initRetroClock()
 initMailComposer()
 initReveals()
 initSmoothScroll()
