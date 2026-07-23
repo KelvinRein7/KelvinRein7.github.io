@@ -25,7 +25,6 @@
         <a class="nav__item nav__item--tilt" href="#experience">Experience</a>
         <a class="nav__item nav__item--soft" href="#projects">Projects</a>
         <a class="nav__item nav__item--lift" href="#extracurricular" aria-label="Extracurricular">${f(`Extracurricular`)}</a>
-        <a class="nav__item nav__item--spin" href="#beyond">Beyond</a>
         <a class="nav__item nav__item--glitch" href="#contact" data-text="Contact">Contact</a>
       </nav>
     </header>
@@ -282,15 +281,7 @@
         </div>
       </div>
     </section>
-  `}function b(){return`
-    <section class="section extracurricular" id="extracurricular">
-      <div class="section__inner">
-        <div class="section__head reveal" data-reveal>
-          <h2>Extracurricular</h2>
-          <div class="data-rule" aria-hidden="true"></div>
-          <p class="section__lede">Community work — not a job, and not a project brief.</p>
-        </div>
-        <div class="extra-list">${o.map(e=>`
+  `}function b(){let e=o.map(e=>`
       <article class="extra-item reveal" data-reveal>
         <h3 class="extra-item__role">${l(e.role)}</h3>
         <p class="extra-item__org">${l(e.org)}</p>
@@ -298,26 +289,30 @@
         <p class="extra-item__story">${l(e.story)}</p>
         ${u(e.tags)}
       </article>
-    `).join(``)}</div>
-      </div>
-    </section>
-  `}function x(){let e=s.items.map(e=>`
+    `).join(``),t=s.items.map(e=>`
       <article class="beyond-card reveal" data-reveal data-beyond="${l(e.id)}">
         <h3>${l(e.title)}</h3>
         <p>${l(e.blurb)}</p>
       </article>
     `).join(``);return`
-    <section class="section beyond" id="beyond">
+    <section class="section extracurricular" id="extracurricular">
       <div class="section__inner">
         <div class="section__head reveal" data-reveal>
-          <h2>${l(s.heading)}</h2>
+          <h2>Extracurricular</h2>
           <div class="data-rule" aria-hidden="true"></div>
-          <p class="section__lede">${l(s.framing)}</p>
+          <p class="section__lede">Community work — not a job, and not a project brief.</p>
         </div>
-        <div class="beyond-grid">${e}</div>
+        <div class="extra-list">${e}</div>
+        <div class="beyond-block">
+          <div class="beyond-block__head reveal" data-reveal>
+            <h3 class="beyond-block__heading">${l(s.heading)}</h3>
+            <p class="beyond-block__lede">${l(s.framing)}</p>
+          </div>
+          <div class="beyond-grid">${t}</div>
+        </div>
       </div>
     </section>
-  `}function S(){return`
+  `}function x(){return`
     <section class="section contact" id="contact">
       <div class="section__inner">
         <div class="section__head reveal" data-reveal>
@@ -342,7 +337,7 @@
         <a href="https://icons8.com" target="_blank" rel="noopener">Icons8</a>
       </p>
     </footer>
-  `}function C(){document.querySelector(`#app`).innerHTML=`
+  `}function S(){document.querySelector(`#app`).innerHTML=`
     ${p()}
     <main>
       ${g()}
@@ -351,6 +346,5 @@
       ${y()}
       ${b()}
       ${x()}
-      ${S()}
     </main>
-  `}function w(){let e=document.querySelectorAll(`[data-reveal]`);if(window.matchMedia(`(prefers-reduced-motion: reduce)`).matches){e.forEach(e=>e.classList.add(`is-visible`));return}let t=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(e.target.classList.add(`is-visible`),t.unobserve(e.target))})},{threshold:.12,rootMargin:`0px 0px -8% 0px`});e.forEach(e=>t.observe(e))}function T(){document.addEventListener(`click`,e=>{let t=e.target.closest(`a[href^="#"]`);if(!t)return;let n=t.getAttribute(`href`);if(!n||n===`#`)return;let r=document.querySelector(n);r&&(e.preventDefault(),r.scrollIntoView({behavior:window.matchMedia(`(prefers-reduced-motion: reduce)`).matches?`auto`:`smooth`,block:`start`}))})}function E(){let e=[...document.querySelectorAll(`.nav a.nav__item[href^="#"]`)];if(!e.length)return;let t=e.map(e=>{let t=e.getAttribute(`href`)?.slice(1),n=t?document.getElementById(t):null;return n?{id:t,el:n,link:e}:null}).filter(Boolean);if(!t.length)return;function n(t){e.forEach(e=>{let n=e.getAttribute(`href`)===`#${t}`;e.classList.toggle(`is-active`,n),n?e.setAttribute(`aria-current`,`true`):e.removeAttribute(`aria-current`)})}function r(){let e=window.scrollY+window.innerHeight*.28,r=t[0].id;for(let n of t)n.el.getBoundingClientRect().top+window.scrollY<=e&&(r=n.id);window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4&&(r=t[t.length-1].id),n(r)}let i=!1;window.addEventListener(`scroll`,()=>{i||(i=!0,window.requestAnimationFrame(()=>{r(),i=!1}))},{passive:!0}),window.addEventListener(`resize`,r,{passive:!0}),r()}function D(){let e=document.getElementById(`retro-clock`);if(!e)return;let t=e=>String(e).padStart(2,`0`);function n(){let n=new Date;e.textContent=`${t(n.getHours())}:${t(n.getMinutes())}:${t(n.getSeconds())}`}n(),window.setInterval(n,1e3)}function O(){let t=document.getElementById(`mail-open`),n=document.getElementById(`mail-win`),r=document.getElementById(`mail-form`),i=document.getElementById(`mail-status`),a=document.getElementById(`mail-close`),o=document.getElementById(`mail-cancel`),s=document.getElementById(`mail-send`),c=document.getElementById(`mail-from`);if(!t||!n||!r)return;let l=`https://formsubmit.co/ajax/${encodeURIComponent(e.email)}`;function u(e){n.hidden=!e,t.setAttribute(`aria-expanded`,String(e)),e&&(i.textContent=``,queueMicrotask(()=>c?.focus()))}function d(){u(!1)}t.addEventListener(`click`,e=>{e.stopPropagation(),u(n.hidden)}),a?.addEventListener(`click`,d),o?.addEventListener(`click`,d),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&!n.hidden&&d()}),document.addEventListener(`click`,e=>{n.hidden||e.target.closest(`.hero__mail`)||d()}),r.addEventListener(`submit`,async e=>{e.preventDefault();let t=String(r.email.value||``).trim(),n=String(r.message.value||``).trim();if(String(r._gotcha.value||``).trim()){i.textContent=`Sent.`,r.reset(),setTimeout(d,900);return}if(!t||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t)){i.textContent=`Enter a valid email.`,c?.focus();return}if(!n){i.textContent=`Write a short message.`,document.getElementById(`mail-message`)?.focus();return}i.textContent=`Sending…`,s.disabled=!0;try{let e=await fetch(l,{method:`POST`,headers:{"Content-Type":`application/json`,Accept:`application/json`},body:JSON.stringify({email:t,message:n,_subject:`Portfolio message from ${t}`,_template:`table`,_replyto:t})}),a=await e.json().catch(()=>({}));if(!e.ok)throw Error(a.message||`Send failed`);i.textContent=`Sent. Thanks!`,r.reset(),setTimeout(d,1100)}catch{i.textContent=`Couldn’t send. Try again or use Contact below.`}finally{s.disabled=!1}})}C(),D(),O(),w(),T(),E();
+  `}function C(){let e=document.querySelectorAll(`[data-reveal]`);if(window.matchMedia(`(prefers-reduced-motion: reduce)`).matches){e.forEach(e=>e.classList.add(`is-visible`));return}let t=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(e.target.classList.add(`is-visible`),t.unobserve(e.target))})},{threshold:.12,rootMargin:`0px 0px -8% 0px`});e.forEach(e=>t.observe(e))}function w(){document.addEventListener(`click`,e=>{let t=e.target.closest(`a[href^="#"]`);if(!t)return;let n=t.getAttribute(`href`);if(!n||n===`#`)return;let r=document.querySelector(n);r&&(e.preventDefault(),r.scrollIntoView({behavior:window.matchMedia(`(prefers-reduced-motion: reduce)`).matches?`auto`:`smooth`,block:`start`}))})}function T(){let e=[...document.querySelectorAll(`.nav a.nav__item[href^="#"]`)];if(!e.length)return;let t=e.map(e=>{let t=e.getAttribute(`href`)?.slice(1),n=t?document.getElementById(t):null;return n?{id:t,el:n,link:e}:null}).filter(Boolean);if(!t.length)return;function n(t){e.forEach(e=>{let n=e.getAttribute(`href`)===`#${t}`;e.classList.toggle(`is-active`,n),n?e.setAttribute(`aria-current`,`true`):e.removeAttribute(`aria-current`)})}function r(){let e=window.scrollY+window.innerHeight*.28,r=t[0].id;for(let n of t)n.el.getBoundingClientRect().top+window.scrollY<=e&&(r=n.id);window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4&&(r=t[t.length-1].id),n(r)}let i=!1;window.addEventListener(`scroll`,()=>{i||(i=!0,window.requestAnimationFrame(()=>{r(),i=!1}))},{passive:!0}),window.addEventListener(`resize`,r,{passive:!0}),r()}function E(){let e=document.getElementById(`retro-clock`);if(!e)return;let t=e=>String(e).padStart(2,`0`);function n(){let n=new Date;e.textContent=`${t(n.getHours())}:${t(n.getMinutes())}:${t(n.getSeconds())}`}n(),window.setInterval(n,1e3)}function D(){let t=document.getElementById(`mail-open`),n=document.getElementById(`mail-win`),r=document.getElementById(`mail-form`),i=document.getElementById(`mail-status`),a=document.getElementById(`mail-close`),o=document.getElementById(`mail-cancel`),s=document.getElementById(`mail-send`),c=document.getElementById(`mail-from`);if(!t||!n||!r)return;let l=`https://formsubmit.co/ajax/${encodeURIComponent(e.email)}`;function u(e){n.hidden=!e,t.setAttribute(`aria-expanded`,String(e)),e&&(i.textContent=``,queueMicrotask(()=>c?.focus()))}function d(){u(!1)}t.addEventListener(`click`,e=>{e.stopPropagation(),u(n.hidden)}),a?.addEventListener(`click`,d),o?.addEventListener(`click`,d),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&!n.hidden&&d()}),document.addEventListener(`click`,e=>{n.hidden||e.target.closest(`.hero__mail`)||d()}),r.addEventListener(`submit`,async e=>{e.preventDefault();let t=String(r.email.value||``).trim(),n=String(r.message.value||``).trim();if(String(r._gotcha.value||``).trim()){i.textContent=`Sent.`,r.reset(),setTimeout(d,900);return}if(!t||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t)){i.textContent=`Enter a valid email.`,c?.focus();return}if(!n){i.textContent=`Write a short message.`,document.getElementById(`mail-message`)?.focus();return}i.textContent=`Sending…`,s.disabled=!0;try{let e=await fetch(l,{method:`POST`,headers:{"Content-Type":`application/json`,Accept:`application/json`},body:JSON.stringify({email:t,message:n,_subject:`Portfolio message from ${t}`,_template:`table`,_replyto:t})}),a=await e.json().catch(()=>({}));if(!e.ok)throw Error(a.message||`Send failed`);i.textContent=`Sent. Thanks!`,r.reset(),setTimeout(d,1100)}catch{i.textContent=`Couldn’t send. Try again or use Contact below.`}finally{s.disabled=!1}})}S(),E(),D(),C(),w(),T();
