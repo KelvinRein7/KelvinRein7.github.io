@@ -253,23 +253,61 @@ ul {
 }
 
 .nav__item:hover,
-.nav__item:focus-visible,
+.nav__item:focus-visible {
+  color: var(--ink);
+}
+
 .nav__item.is-active {
   color: var(--ink);
 }
 
 .nav__item--scale:hover,
-.nav__item--scale:focus-visible,
-.nav__item--scale.is-active {
+.nav__item--scale:focus-visible {
   transform: scale(1.1);
   color: var(--teal);
 }
 
+.nav__item--scale.is-active {
+  color: var(--teal);
+  animation: nav-scale-loop 2s ease-in-out infinite;
+}
+
+@keyframes nav-scale-loop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  12% {
+    transform: scale(1.1);
+  }
+  24% {
+    transform: scale(1);
+  }
+  /* ~0.5s motion, then ~1.5s rest ≈ 1s+ pause feel */
+}
+
 .nav__item--tilt:hover,
-.nav__item--tilt:focus-visible,
-.nav__item--tilt.is-active {
+.nav__item--tilt:focus-visible {
   transform: rotate(8deg);
   color: var(--ink);
+}
+
+.nav__item--tilt.is-active {
+  color: var(--ink);
+  animation: nav-tilt-loop 2s ease-in-out infinite;
+}
+
+@keyframes nav-tilt-loop {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  12% {
+    transform: rotate(8deg);
+  }
+  24% {
+    transform: rotate(0deg);
+  }
 }
 
 .nav__item--soft {
@@ -295,8 +333,7 @@ ul {
 }
 
 .nav__item--soft:hover,
-.nav__item--soft:focus-visible,
-.nav__item--soft.is-active {
+.nav__item--soft:focus-visible {
   background: rgba(37, 99, 235, 0.08);
   box-shadow:
     0 2px 8px rgba(37, 99, 235, 0.18),
@@ -307,6 +344,33 @@ ul {
 .nav__item--soft:hover::after,
 .nav__item--soft:focus-visible::after {
   transform: translateX(120%);
+}
+
+/* Projects: glass stays on; shine repeats with ~1s pause */
+.nav__item--soft.is-active {
+  background: rgba(37, 99, 235, 0.08);
+  box-shadow:
+    0 2px 8px rgba(37, 99, 235, 0.18),
+    0 0 0 1px rgba(59, 130, 246, 0.25);
+  color: #1d4ed8;
+}
+
+.nav__item--soft.is-active::after {
+  transition: none;
+  animation: nav-soft-shine-loop 1.55s ease-in-out infinite;
+}
+
+@keyframes nav-soft-shine-loop {
+  0% {
+    transform: translateX(-120%);
+  }
+  35% {
+    transform: translateX(120%);
+  }
+  35.01%,
+  100% {
+    transform: translateX(-120%);
+  }
 }
 
 .nav__item--lift {
@@ -344,11 +408,50 @@ ul {
   color: var(--ink);
 }
 
+.nav__item--lift.is-active .nav__letter {
+  animation: nav-letter-jump-loop 1.9s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--i) * 35ms) infinite;
+}
+
+@keyframes nav-letter-jump-loop {
+  0%,
+  24% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-8px);
+  }
+  16% {
+    transform: translateY(-2px);
+  }
+  24%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .nav__item--spin:hover,
-.nav__item--spin:focus-visible,
-.nav__item--spin.is-active {
+.nav__item--spin:focus-visible {
   transform: rotate(180deg);
   color: var(--teal-deep);
+}
+
+.nav__item--spin.is-active {
+  color: var(--teal-deep);
+  animation: nav-spin-loop 2s ease-in-out infinite;
+}
+
+@keyframes nav-spin-loop {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(180deg);
+  }
+  40%,
+  100% {
+    transform: rotate(180deg);
+  }
 }
 
 .nav__item--glitch {
@@ -356,10 +459,14 @@ ul {
 }
 
 .nav__item--glitch:hover,
-.nav__item--glitch:focus-visible,
-.nav__item--glitch.is-active {
+.nav__item--glitch:focus-visible {
   color: var(--ink);
   animation: nav-glitch-skew 0.35s linear infinite;
+}
+
+.nav__item--glitch.is-active {
+  color: var(--ink);
+  animation: nav-glitch-skew-loop 1.7s linear infinite;
 }
 
 .nav__item--glitch:hover::before,
@@ -378,8 +485,7 @@ ul {
 }
 
 .nav__item--glitch:hover::before,
-.nav__item--glitch:focus-visible::before,
-.nav__item--glitch.is-active::before {
+.nav__item--glitch:focus-visible::before {
   color: #00f0ff;
   animation: nav-glitch-a 0.4s steps(2, end) infinite;
   clip-path: inset(0 0 55% 0);
@@ -387,10 +493,23 @@ ul {
 }
 
 .nav__item--glitch:hover::after,
-.nav__item--glitch:focus-visible::after,
-.nav__item--glitch.is-active::after {
+.nav__item--glitch:focus-visible::after {
   color: #ff2a6d;
   animation: nav-glitch-b 0.4s steps(2, end) infinite reverse;
+  clip-path: inset(45% 0 0 0);
+  opacity: 0.9;
+}
+
+.nav__item--glitch.is-active::before {
+  color: #00f0ff;
+  animation: nav-glitch-a-loop 1.7s steps(2, end) infinite;
+  clip-path: inset(0 0 55% 0);
+  opacity: 0.9;
+}
+
+.nav__item--glitch.is-active::after {
+  color: #ff2a6d;
+  animation: nav-glitch-b-loop 1.7s steps(2, end) infinite reverse;
   clip-path: inset(45% 0 0 0);
   opacity: 0.9;
 }
@@ -411,6 +530,29 @@ ul {
   }
   80% {
     transform: translate(1px, 1px);
+  }
+}
+
+@keyframes nav-glitch-skew-loop {
+  0%,
+  35% {
+    transform: translate(0);
+  }
+  5% {
+    transform: translate(-1px, 1px);
+  }
+  10% {
+    transform: translate(1px, -1px);
+  }
+  15% {
+    transform: translate(-1px, 0);
+  }
+  20% {
+    transform: translate(1px, 1px);
+  }
+  25%,
+  100% {
+    transform: translate(0);
   }
 }
 
@@ -446,6 +588,48 @@ ul {
   }
 }
 
+@keyframes nav-glitch-a-loop {
+  0%,
+  35%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  5% {
+    transform: translate(3px, -1px);
+    opacity: 0.9;
+  }
+  15% {
+    transform: translate(-2px, 1px);
+    opacity: 0.9;
+  }
+  25% {
+    transform: translate(2px, 0);
+    opacity: 0.9;
+  }
+}
+
+@keyframes nav-glitch-b-loop {
+  0%,
+  35%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  5% {
+    transform: translate(-3px, 1px);
+    opacity: 0.9;
+  }
+  15% {
+    transform: translate(2px, -1px);
+    opacity: 0.9;
+  }
+  25% {
+    transform: translate(-2px, 0);
+    opacity: 0.9;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .nav__item,
   .nav--dock {
@@ -458,18 +642,24 @@ ul {
   .nav__item--tilt:hover,
   .nav__item--tilt:focus-visible,
   .nav__item--tilt.is-active,
+  .nav__item--spin:hover,
+  .nav__item--spin:focus-visible,
+  .nav__item--spin.is-active,
   .nav__item--lift:hover .nav__letter,
-  .nav__item--lift:focus-visible .nav__letter {
+  .nav__item--lift:focus-visible .nav__letter,
+  .nav__item--lift.is-active .nav__letter {
     transform: none;
     animation: none;
+  }
+
+  .nav__item--soft.is-active::after {
+    animation: none;
+    transform: translateX(-120%);
   }
 
   .nav__item--lift:hover,
   .nav__item--lift:focus-visible,
   .nav__item--lift.is-active,
-  .nav__item--spin:hover,
-  .nav__item--spin:focus-visible,
-  .nav__item--spin.is-active,
   .nav__item--glitch:hover,
   .nav__item--glitch:focus-visible,
   .nav__item--glitch.is-active {
@@ -1736,11 +1926,28 @@ ul {
   line-height: 1.65;
 }
 
-/* —— Beyond the Code —— */
+/* —— Beyond the Code (inside Extracurricular) —— */
+.beyond-block {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+}
+
+.beyond-block__heading {
+  margin: 0;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+}
+
+.beyond-block__lede {
+  margin: var(--space-2) 0 0;
+  max-width: 36rem;
+  color: var(--ink-soft);
+}
+
 .beyond-grid {
   display: grid;
   gap: var(--space-4);
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
 }
 

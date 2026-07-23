@@ -77,7 +77,6 @@ function renderNav() {
         <a class="nav__item nav__item--tilt" href="#experience">Experience</a>
         <a class="nav__item nav__item--soft" href="#projects">Projects</a>
         <a class="nav__item nav__item--lift" href="#extracurricular" aria-label="Extracurricular">${letterSpans('Extracurricular')}</a>
-        <a class="nav__item nav__item--spin" href="#beyond">Beyond</a>
         <a class="nav__item nav__item--glitch" href="#contact" data-text="Contact">Contact</a>
       </nav>
     </header>
@@ -441,22 +440,7 @@ function renderExtracurricular() {
     )
     .join('')
 
-  return `
-    <section class="section extracurricular" id="extracurricular">
-      <div class="section__inner">
-        <div class="section__head reveal" data-reveal>
-          <h2>Extracurricular</h2>
-          <div class="data-rule" aria-hidden="true"></div>
-          <p class="section__lede">Community work — not a job, and not a project brief.</p>
-        </div>
-        <div class="extra-list">${items}</div>
-      </div>
-    </section>
-  `
-}
-
-function renderBeyond() {
-  const items = beyond.items
+  const beyondItems = beyond.items
     .map(
       (item) => `
       <article class="beyond-card reveal" data-reveal data-beyond="${escapeHtml(item.id)}">
@@ -468,14 +452,21 @@ function renderBeyond() {
     .join('')
 
   return `
-    <section class="section beyond" id="beyond">
+    <section class="section extracurricular" id="extracurricular">
       <div class="section__inner">
         <div class="section__head reveal" data-reveal>
-          <h2>${escapeHtml(beyond.heading)}</h2>
+          <h2>Extracurricular</h2>
           <div class="data-rule" aria-hidden="true"></div>
-          <p class="section__lede">${escapeHtml(beyond.framing)}</p>
+          <p class="section__lede">Community work — not a job, and not a project brief.</p>
         </div>
-        <div class="beyond-grid">${items}</div>
+        <div class="extra-list">${items}</div>
+        <div class="beyond-block">
+          <div class="beyond-block__head reveal" data-reveal>
+            <h3 class="beyond-block__heading">${escapeHtml(beyond.heading)}</h3>
+            <p class="beyond-block__lede">${escapeHtml(beyond.framing)}</p>
+          </div>
+          <div class="beyond-grid">${beyondItems}</div>
+        </div>
       </div>
     </section>
   `
@@ -519,7 +510,6 @@ function render() {
       ${renderExperience()}
       ${renderProjects()}
       ${renderExtracurricular()}
-      ${renderBeyond()}
       ${renderContact()}
     </main>
   `
