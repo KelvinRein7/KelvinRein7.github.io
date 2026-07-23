@@ -149,7 +149,8 @@ function renderHero() {
               ? ''
               : `<p class="hero__location hero__location--inline reveal" data-reveal>${escapeHtml(site.location)}</p>`
           }
-          <ul class="hero__socials reveal" data-reveal>
+          <div class="hero__socials-row reveal" data-reveal>
+            <ul class="hero__socials">
             <li><a href="${escapeHtml(site.linkedin)}" target="_blank" rel="noopener">LinkedIn</a></li>
             <li>
               <a
@@ -235,7 +236,37 @@ function renderHero() {
                 </form>
               </div>
             </li>
-          </ul>
+            </ul>
+            <div class="hero__resume-wrap">
+              <span class="hero__resume-cue" aria-hidden="true">
+                <span class="hero__resume-cue-label">Resume</span>
+                <svg class="hero__resume-cue-arrow" viewBox="0 0 40 48" fill="none">
+                  <path
+                    d="M28 4c-1.5 10-6 18-16 26"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                  <path
+                    d="M8.5 22.5 12 31.5 20.5 27"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <a
+                class="hero__resume-sticker"
+                href="${escapeHtml(site.resume)}"
+                target="_blank"
+                rel="noopener"
+                aria-label="Download resume (PDF)"
+              >
+                <img src="/resume-sticker.png" width="150" height="150" alt="" draggable="false" />
+              </a>
+            </div>
+          </div>
           <p class="hero__sub-line reveal" data-reveal>${escapeHtml(site.subLine)}</p>
         </div>
       </div>
@@ -471,6 +502,10 @@ function renderContact() {
       <div class="data-rule" aria-hidden="true"></div>
       <p>${escapeHtml(education.degree)} · ${escapeHtml(education.school)} · ${escapeHtml(education.dates)}</p>
       <p>© ${site.year} ${escapeHtml(site.name)}</p>
+      <p class="site-footer__credit">
+        Icons by
+        <a href="https://icons8.com" target="_blank" rel="noopener">Icons8</a>
+      </p>
     </footer>
   `
 }
