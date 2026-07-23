@@ -253,18 +253,21 @@ ul {
 }
 
 .nav__item:hover,
-.nav__item:focus-visible {
+.nav__item:focus-visible,
+.nav__item.is-active {
   color: var(--ink);
 }
 
 .nav__item--scale:hover,
-.nav__item--scale:focus-visible {
+.nav__item--scale:focus-visible,
+.nav__item--scale.is-active {
   transform: scale(1.1);
   color: var(--teal);
 }
 
 .nav__item--tilt:hover,
-.nav__item--tilt:focus-visible {
+.nav__item--tilt:focus-visible,
+.nav__item--tilt.is-active {
   transform: rotate(8deg);
   color: var(--ink);
 }
@@ -292,7 +295,8 @@ ul {
 }
 
 .nav__item--soft:hover,
-.nav__item--soft:focus-visible {
+.nav__item--soft:focus-visible,
+.nav__item--soft.is-active {
   background: rgba(37, 99, 235, 0.08);
   box-shadow:
     0 2px 8px rgba(37, 99, 235, 0.18),
@@ -334,13 +338,15 @@ ul {
 }
 
 .nav__item--lift:hover,
-.nav__item--lift:focus-visible {
+.nav__item--lift:focus-visible,
+.nav__item--lift.is-active {
   transform: none;
   color: var(--ink);
 }
 
 .nav__item--spin:hover,
-.nav__item--spin:focus-visible {
+.nav__item--spin:focus-visible,
+.nav__item--spin.is-active {
   transform: rotate(180deg);
   color: var(--teal-deep);
 }
@@ -350,7 +356,8 @@ ul {
 }
 
 .nav__item--glitch:hover,
-.nav__item--glitch:focus-visible {
+.nav__item--glitch:focus-visible,
+.nav__item--glitch.is-active {
   color: var(--ink);
   animation: nav-glitch-skew 0.35s linear infinite;
 }
@@ -358,7 +365,9 @@ ul {
 .nav__item--glitch:hover::before,
 .nav__item--glitch:hover::after,
 .nav__item--glitch:focus-visible::before,
-.nav__item--glitch:focus-visible::after {
+.nav__item--glitch:focus-visible::after,
+.nav__item--glitch.is-active::before,
+.nav__item--glitch.is-active::after {
   content: attr(data-text);
   position: absolute;
   inset: 0;
@@ -369,7 +378,8 @@ ul {
 }
 
 .nav__item--glitch:hover::before,
-.nav__item--glitch:focus-visible::before {
+.nav__item--glitch:focus-visible::before,
+.nav__item--glitch.is-active::before {
   color: #00f0ff;
   animation: nav-glitch-a 0.4s steps(2, end) infinite;
   clip-path: inset(0 0 55% 0);
@@ -377,7 +387,8 @@ ul {
 }
 
 .nav__item--glitch:hover::after,
-.nav__item--glitch:focus-visible::after {
+.nav__item--glitch:focus-visible::after,
+.nav__item--glitch.is-active::after {
   color: #ff2a6d;
   animation: nav-glitch-b 0.4s steps(2, end) infinite reverse;
   clip-path: inset(45% 0 0 0);
@@ -443,8 +454,10 @@ ul {
 
   .nav__item--scale:hover,
   .nav__item--scale:focus-visible,
+  .nav__item--scale.is-active,
   .nav__item--tilt:hover,
   .nav__item--tilt:focus-visible,
+  .nav__item--tilt.is-active,
   .nav__item--lift:hover .nav__letter,
   .nav__item--lift:focus-visible .nav__letter {
     transform: none;
@@ -453,10 +466,13 @@ ul {
 
   .nav__item--lift:hover,
   .nav__item--lift:focus-visible,
+  .nav__item--lift.is-active,
   .nav__item--spin:hover,
   .nav__item--spin:focus-visible,
+  .nav__item--spin.is-active,
   .nav__item--glitch:hover,
-  .nav__item--glitch:focus-visible {
+  .nav__item--glitch:focus-visible,
+  .nav__item--glitch.is-active {
     transform: none;
     animation: none;
   }
@@ -464,7 +480,9 @@ ul {
   .nav__item--glitch:hover::before,
   .nav__item--glitch:hover::after,
   .nav__item--glitch:focus-visible::before,
-  .nav__item--glitch:focus-visible::after {
+  .nav__item--glitch:focus-visible::after,
+  .nav__item--glitch.is-active::before,
+  .nav__item--glitch.is-active::after {
     content: none;
     animation: none;
   }

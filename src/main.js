@@ -565,6 +565,63 @@ function initSmoothScroll() {
   })
 }
 
+function initNavSpy() {
+  const links = [...document.querySelectorAll('.nav a.nav__item[href^="#"]')]
+  if (!links.length) return
+
+  const sections = links
+    .map((link) => {
+      const id = link.getAttribute('href')?.slice(1)
+      const el = id ? document.getElementById(id) : null
+      return el ? { id, el, link } : null
+    })
+    .filter(Boolean)
+
+  if (!sections.length) return
+
+  function setActive(id) {
+    links.forEach((link) => {
+      const on = link.getAttribute('href') === `#${id}`
+      link.classList.toggle('is-active', on)
+      if (on) link.setAttribute('aria-current', 'true')
+      else link.removeAttribute('aria-current')
+    })
+  }
+
+  function update() {
+    const marker = window.scrollY + window.innerHeight * 0.28
+    let current = sections[0].id
+
+    for (const section of sections) {
+      const top = section.el.getBoundingClientRect().top + window.scrollY
+      if (top <= marker) current = section.id
+    }
+
+    // Near page bottom — lock to last section
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+      current = sections[sections.length - 1].id
+    }
+
+    setActive(current)
+  }
+
+  let ticking = false
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(() => {
+        update()
+        ticking = false
+      })
+    },
+    { passive: true },
+  )
+  window.addEventListener('resize', update, { passive: true })
+  update()
+}
+
 function initRetroClock() {
   const el = document.getElementById('retro-clock')
   if (!el) return
@@ -688,3 +745,4 @@ initRetroClock()
 initMailComposer()
 initReveals()
 initSmoothScroll()
+initNavSpy()
