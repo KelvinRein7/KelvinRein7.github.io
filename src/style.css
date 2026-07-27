@@ -1654,10 +1654,27 @@ ul {
 }
 
 .exp-item--media .photo-slot.has-image img {
+  object-fit: cover;
+  object-position: center top;
+  background: transparent;
+  padding: 0;
+}
+
+.exp-item--media .photo-slot.has-image img[src$='.png'],
+.exp-item--media .photo-slot.has-image img[src$='.jpg'],
+.exp-item--media .photo-slot.has-image img[src$='.jpeg'],
+.exp-item--media .photo-slot.has-image img[src$='.webp'] {
   object-fit: contain;
   object-position: center;
   background: #fff;
   padding: 0.75rem;
+}
+
+.exp-item--media .photo-slot.has-image img[src$='.gif'] {
+  object-fit: cover;
+  object-position: center top;
+  background: transparent;
+  padding: 0;
 }
 
 .project--media .photo-slot.has-image img {

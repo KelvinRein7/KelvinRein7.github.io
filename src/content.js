@@ -76,9 +76,9 @@ export const experience = [
     dates: 'Ongoing · side',
     location: null,
     story:
-      "I'm the entire tech department. I maintain and evolve the company's website and database single-handedly — infrastructure, content, data, all of it. When something breaks at BladeX, I'm the one who fixes it; when something new is needed, I'm the one who builds it.",
-    tags: ['Web', 'Database', 'Analytics'],
-    photos: ['/experience/bladex.png'],
+      "I'm the entire tech department — website, database, and day-to-day product. The site is built with Vite, JavaScript, and CSS: when something breaks or something new is needed, I ship it.",
+    tags: ['Vite', 'JavaScript', 'CSS', 'Database'],
+    photos: ['/experience/bladex.gif'],
     link: 'https://bladex-edu.vercel.app/Home',
     linkLabel: 'Website',
   },
