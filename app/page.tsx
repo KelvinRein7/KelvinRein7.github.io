@@ -294,7 +294,22 @@ function Hero() {
           <p className="hero__sub-line reveal is-visible">{site.subLine}</p>
         </div>
       </div>
-      <a className="hero__scroll" href="#about" aria-label="Scroll to about">↓</a>
+      <a className="hero__scroll" href="#about" aria-label="Scroll to about">
+        <svg className="hero__scroll-mouse" viewBox="0 0 24 36" aria-hidden="true">
+          <rect
+            x="1"
+            y="1"
+            width="22"
+            height="34"
+            rx="11"
+            ry="11"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.75"
+          />
+          <circle className="hero__scroll-wheel" cx="12" cy="10" r="1.6" fill="currentColor" />
+        </svg>
+      </a>
     </section>
   )
 }
