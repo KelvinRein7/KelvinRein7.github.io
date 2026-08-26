@@ -1546,79 +1546,246 @@ ul {
   border-radius: var(--radius);
 }
 
-/* —— Experience —— */
-.exp-list {
-  display: grid;
-  gap: var(--space-6);
-  margin-top: var(--space-4);
+/* —— Experience journey map —— */
+.experience .section__inner {
+  max-width: 72rem;
 }
 
-.exp-item {
-  display: grid;
-  gap: var(--space-4);
-  padding-bottom: var(--space-5);
-  border-bottom: 1px solid var(--line);
+.journey {
+  --pin: var(--amber);
+  --road: #243044;
+  position: relative;
+  margin-top: var(--space-5);
+  padding: 0.35rem 0 2.75rem;
 }
 
-.exp-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
+.journey__stop--amber {
+  --pin: #c45c26;
 }
 
-.exp-item__body {
-  display: grid;
-  gap: var(--space-3);
-  min-width: 0;
+.journey__stop--brick {
+  --pin: #c4313a;
 }
 
-@media (min-width: 880px) {
-  .exp-item--media {
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 26rem);
-    gap: var(--space-5);
-    align-items: start;
-  }
+.journey__stop--teal {
+  --pin: #2a6f7c;
 }
 
-.exp-item__meta {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--space-3);
-  align-items: start;
+.journey__stop--moss {
+  --pin: #2f8a57;
 }
 
-.exp-item__index {
+.journey__road {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+.journey__road-shadow {
+  fill: none;
+  stroke: rgba(28, 36, 48, 0.18);
+  stroke-width: 36;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: blur(3.5px);
+}
+
+.journey__road-body {
+  fill: none;
+  stroke: var(--road);
+  stroke-width: 22;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.journey__road-sheen {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.journey__stops {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3.5rem, 7vw, 6rem);
+}
+
+.journey__stop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 11rem;
+}
+
+.journey__stop--left {
+  justify-content: flex-start;
+}
+
+.journey__stop--right {
+  justify-content: flex-end;
+}
+
+.journey__pin {
+  position: absolute;
+  top: 1.35rem;
+  left: 39%;
+  z-index: 2;
+  width: 3.55rem;
+  height: 4.6rem;
+  transform: translate(-50%, -72%);
+  color: var(--pin);
+  pointer-events: none;
+  filter: drop-shadow(0 7px 12px rgba(28, 36, 48, 0.24));
+}
+
+.journey__stop--right .journey__pin {
+  left: 61%;
+}
+
+.journey__pin-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.journey__pin-num {
+  position: absolute;
+  left: 50%;
+  top: 34%;
+  transform: translate(-50%, -50%);
   font-family: var(--font-display);
-  font-size: 0.95rem;
-  color: var(--teal);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--pin);
   font-variant-numeric: tabular-nums;
-  padding-top: 0.2rem;
 }
 
-.exp-item__role {
-  font-size: clamp(1.25rem, 2vw, 1.55rem);
+.journey__tip {
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  width: 0;
+  height: 0;
 }
 
-.exp-item__org {
-  margin: 0.25rem 0 0;
+.journey__copy {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 22.75rem);
+}
+
+.journey__stop--left .journey__copy {
+  padding-right: 1.25rem;
+}
+
+.journey__stop--right .journey__copy {
+  padding-left: 1.25rem;
+}
+
+.journey__flag {
+  display: inline-block;
+  margin: 0;
+  padding: 0.38rem 0.72rem;
+  background: var(--pin);
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.journey__role {
+  margin-top: 0.7rem;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+}
+
+.journey__org {
+  margin: 0.3rem 0 0;
   font-weight: 600;
   color: var(--teal-deep);
 }
 
-.exp-item__dates {
+.journey__site {
+  font-weight: 600;
+}
+
+.journey__dates {
   margin: 0.15rem 0 0;
   font-size: 0.92rem;
   color: var(--ink-soft);
 }
 
-.exp-item__story {
-  margin: 0;
-  max-width: 42rem;
+.journey__story {
+  margin: 0.75rem 0 0;
   color: var(--ink-soft);
   line-height: 1.65;
 }
 
-.exp-item .tech-list {
-  margin-top: calc(var(--space-2) * -0.5);
+.journey__copy .tech-list {
+  margin-top: 0.7rem;
+}
+
+.journey__shots {
+  margin-top: 0.85rem;
+}
+
+.journey__shot {
+  margin: 0;
+  max-width: 16.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: 0 8px 22px rgba(28, 36, 48, 0.1);
+}
+
+.journey__shot img {
+  width: 100%;
+  height: 8.5rem;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: #fff;
+}
+
+@media (max-width: 760px) {
+  .journey {
+    padding-left: 0.15rem;
+  }
+
+  .journey__stop,
+  .journey__stop--left,
+  .journey__stop--right {
+    justify-content: flex-start;
+    min-height: 0;
+  }
+
+  .journey__pin,
+  .journey__stop--right .journey__pin {
+    left: 1.15rem;
+    top: 1.55rem;
+    width: 2.7rem;
+    height: 3.5rem;
+  }
+
+  .journey__copy,
+  .journey__stop--left .journey__copy,
+  .journey__stop--right .journey__copy {
+    width: 100%;
+    padding: 0 0 0 3.6rem;
+  }
+
+  .journey__stops {
+    gap: 2.75rem;
+  }
 }
 
 /* —— Photo slots —— */
@@ -1639,7 +1806,6 @@ ul {
   box-shadow: 0 10px 28px rgba(28, 36, 48, 0.1);
 }
 
-.exp-item--media .photo-slot,
 .project--media .photo-slot {
   min-height: 15rem;
   aspect-ratio: 16 / 10;
@@ -1651,30 +1817,6 @@ ul {
   object-fit: cover;
   object-position: center top;
   display: block;
-}
-
-.exp-item--media .photo-slot.has-image img {
-  object-fit: cover;
-  object-position: center top;
-  background: transparent;
-  padding: 0;
-}
-
-.exp-item--media .photo-slot.has-image img[src$='.png'],
-.exp-item--media .photo-slot.has-image img[src$='.jpg'],
-.exp-item--media .photo-slot.has-image img[src$='.jpeg'],
-.exp-item--media .photo-slot.has-image img[src$='.webp'] {
-  object-fit: contain;
-  object-position: center;
-  background: #fff;
-  padding: 0.75rem;
-}
-
-.exp-item--media .photo-slot.has-image img[src$='.gif'] {
-  object-fit: cover;
-  object-position: center top;
-  background: transparent;
-  padding: 0;
 }
 
 .project--media .photo-slot.has-image img {

@@ -42,45 +42,62 @@ export const education = {
 
 /**
  * Experience only — paid / formal roles.
- * Each entry uses `story` (2–3 sentences). No resume bullets.
+ * Chronological (journey order: first role → current). Each entry uses `story` (2–3 sentences).
+ * tone: pin / flag color on the journey map.
  */
 export const experience = [
   {
-    id: 'studysuccess',
-    role: 'Data Analytics Specialist',
-    org: 'StudySuccess.org',
-    dates: 'Jan 2025 – Dec 2025',
-    location: 'Remote',
+    id: 'ta',
+    role: 'Teaching Assistant (Python)',
+    org: 'Carleton University',
+    dates: 'Jan 2023 – Dec 2024',
+    location: 'Ottawa, ON',
     story:
-      'I took scattered student and applicant data from multiple sources and made it trustworthy — then made it useful. I built the Power BI dashboards and automated reporting the team relied on to track applications, outcomes, and program performance, plus cohort and funnel analysis that actually drove decisions.',
-    tags: ['Python', 'SQL', 'Power BI', 'ETL'],
+      'I graded 500+ assignments, but the real job was feedback — helping students actually get better at Python, not just get grades. I hosted tutorials too.',
+    tags: ['Python', 'Teaching'],
     photos: [],
     link: null,
+    tone: 'amber',
   },
   {
     id: 'fcac',
     role: 'Data Analyst / Data Scientist Intern',
     org: 'Financial Consumer Agency of Canada',
     dates: 'Sep 2023 – May 2024',
-    location: 'Ottawa',
+    location: 'Ottawa, ON',
     story:
-      'I worked with 10,000+ real consumer complaint records for a federal agency. I built and evaluated NLP models to automatically classify complaints, and automated ETL pipelines that cut manual processing by ~30%. My first taste of ML with real-world stakes — government data, real consumers.',
-    tags: ['Python', 'SQL', 'NLP', 'ETL'],
+      'I worked with 10,000+ real consumer complaint records for a federal agency. I built Python pipelines that cut manual processing by about 30%, then trained an NLP model on Azure that classified complaints at 88% accuracy. First taste of ML with real-world stakes — government data, real consumers.',
+    tags: ['Python', 'SQL', 'NLP', 'Azure ML'],
     photos: ['/experience/fcac.png'],
     link: null,
+    tone: 'brick',
+  },
+  {
+    id: 'studysuccess',
+    role: 'Junior Developer',
+    org: 'StudySuccess.org',
+    dates: 'Jan 2025 – Jun 2025',
+    location: 'Remote',
+    story:
+      'I rebuilt the website so the next developer wasn’t stuck maintaining a legacy mess — that swap saved 10+ hours of redo. Then I standardized student and applicant data from multiple sources, automated the reporting, and built the Power BI dashboards the team actually used.',
+    tags: ['JavaScript', 'Node.js', 'Python', 'SQL', 'Power BI'],
+    photos: [],
+    link: null,
+    tone: 'teal',
   },
   {
     id: 'bladex',
-    role: 'Head of Technology & Analytics',
+    role: 'Software Engineer',
     org: 'BladeX Education',
-    dates: 'Ongoing · side',
-    location: null,
+    dates: 'Mar 2026 – Present',
+    location: 'Remote',
     story:
-      "I'm the entire tech department — website, database, and day-to-day product. The site is built with Vite, JavaScript, and CSS: when something breaks or something new is needed, I ship it.",
-    tags: ['Vite', 'JavaScript', 'CSS', 'Database'],
+      'I rebuilt and shipped the education platform — consultant search, booking, and a data layer that could keep up. Traffic 3×. When routing went blank after page changes, I found the bug and fixed it. Performance work took Lighthouse from 65 to 91.',
+    tags: ['React', 'Tailwind', 'Supabase', 'PostgreSQL', 'TanStack Query'],
     photos: ['/experience/bladex.gif'],
     link: 'https://bladex-edu.vercel.app/Home',
     linkLabel: 'Website',
+    tone: 'moss',
   },
   {
     id: 'win',
@@ -94,18 +111,6 @@ export const experience = [
     photos: [],
     link: null,
     hidden: true,
-  },
-  {
-    id: 'ta',
-    role: 'Teaching Assistant (Python)',
-    org: 'Carleton University',
-    dates: 'Jan 2023 – Dec 2024',
-    location: null,
-    story:
-      'I graded 500+ assignments, but the real job was feedback — helping students actually get better at Python, not just get grades. I hosted tutorials too.',
-    tags: ['Python', 'Teaching'],
-    photos: [],
-    link: null,
   },
 ]
 

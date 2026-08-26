@@ -2,59 +2,7 @@
 
 import { FormEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
-import {
-  about,
-  beyond,
-  contact,
-  education,
-  extracurricular,
-  experience,
-  hero,
-  projects,
-  site,
-} from '../src/content.js'
-
-type ExperienceItem = {
-  id: string
-  role: string
-  org: string
-  dates: string
-  location?: string | null
-  story: string
-  tags: string[]
-  photos: string[]
-  link?: string | null
-  linkLabel?: string
-  hidden?: boolean
-}
-
-type ProjectItem = {
-  id: string
-  title: string
-  status: 'live' | 'experiment'
-  story: string
-  tech: string[]
-  link?: string | null
-  linkLabel?: string | null
-  photos: string[]
-  featured?: boolean
-  logo?: string
-}
-
-type ExtraItem = {
-  id: string
-  role: string
-  org: string
-  dates: string
-  story: string
-  tags: string[]
-}
-
-type BeyondItem = {
-  id: string
-  title: string
-  blurb: string
-}
+import { contact, education, hero, site } from '../src/content.js'
 
 function SectionHeading({ title, lede }: { title: string; lede?: string }) {
   return (
@@ -62,47 +10,6 @@ function SectionHeading({ title, lede }: { title: string; lede?: string }) {
       <h2>{title}</h2>
       <div className="data-rule" aria-hidden="true" />
       {lede && <p className="section__lede">{lede}</p>}
-    </div>
-  )
-}
-
-function TechList({ tags }: { tags?: string[] }) {
-  if (!tags?.length) return null
-  return (
-    <ul className="tech-list">
-      {tags.map((tag) => (
-        <li key={tag}>{tag}</li>
-      ))}
-    </ul>
-  )
-}
-
-function PhotoSlots({
-  photos,
-  label,
-  minSlots = 2,
-}: {
-  photos?: string[]
-  label: string
-  minSlots?: number
-}) {
-  const items = [...(photos ?? [])]
-  if (!items.length && minSlots <= 0) return null
-  while (items.length < minSlots) items.push('')
-
-  return (
-    <div className="photo-grid" aria-label={`Photos for ${label}`}>
-      {items.map((src, index) =>
-        src ? (
-          <figure className="photo-slot has-image" key={src}>
-            <Image src={src} alt={`${label} photo ${index + 1}`} width={1600} height={1000} loading="lazy" />
-          </figure>
-        ) : (
-          <figure className="photo-slot placeholder" aria-hidden="true" key={`placeholder-${index}`}>
-            <span className="photo-slot__label">Image</span>
-          </figure>
-        ),
-      )}
     </div>
   )
 }
@@ -226,10 +133,6 @@ function MailComposer() {
 
 function Header() {
   const links = [
-    ['About', 'scale', 'about'],
-    ['Experience', 'tilt', 'experience'],
-    ['Projects', 'soft', 'projects'],
-    ['Extracurricular', 'lift', 'extracurricular'],
     ['Contact', 'glitch', 'contact'],
   ]
 
@@ -243,13 +146,7 @@ function Header() {
       <nav className="nav nav--dock" aria-label="Primary">
         {links.map(([label, effect, id]) => (
           <a className={`nav__item nav__item--${effect}`} href={`#${id}`} key={id} data-text={label}>
-            {effect === 'lift'
-              ? [...label].map((letter, index) => (
-                  <span className="nav__letter" style={{ '--i': index } as React.CSSProperties} key={`${letter}-${index}`}>
-                    {letter === ' ' ? '\u00a0' : letter}
-                  </span>
-                ))
-              : label}
+            {label}
           </a>
         ))}
       </nav>
@@ -294,7 +191,7 @@ function Hero() {
           <p className="hero__sub-line reveal is-visible">{site.subLine}</p>
         </div>
       </div>
-      <a className="hero__scroll" href="#about" aria-label="Scroll to about">
+      <a className="hero__scroll" href="#contact" aria-label="Scroll to contact">
         <svg className="hero__scroll-mouse" viewBox="0 0 24 36" aria-hidden="true">
           <rect
             x="1"
@@ -310,108 +207,6 @@ function Hero() {
           <circle className="hero__scroll-wheel" cx="12" cy="10" r="1.6" fill="currentColor" />
         </svg>
       </a>
-    </section>
-  )
-}
-
-function About() {
-  return (
-    <section className="section about" id="about">
-      <div className="section__inner">
-        <SectionHeading title={about.heading} />
-        <div className="about__grid">
-          <div className="about__narrative reveal is-visible">{about.paragraphs.map((paragraph: string) => <p className="about__body-p" key={paragraph}>{paragraph}</p>)}</div>
-          <aside className="about__aside reveal is-visible">
-            <p className="edu-degree">{education.degree}</p>
-            <p className="edu-school">{education.school}</p>
-            <p className="edu-dates">{education.dates} · {education.location}</p>
-          </aside>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Experience() {
-  return (
-    <section className="section experience" id="experience">
-      <div className="section__inner">
-        <SectionHeading title="Experience" />
-        <div className="exp-list">
-          {(experience as ExperienceItem[]).filter((job) => !job.hidden).map((job, index) => {
-            const media = job.photos?.length > 0
-            return (
-              <article className={`exp-item ${media ? 'exp-item--media' : ''} reveal is-visible`} key={job.id}>
-                <div className="exp-item__body">
-                  <div className="exp-item__meta">
-                    <span className="exp-item__index">{String(index + 1).padStart(2, '0')}</span>
-                    <div>
-                      <h3 className="exp-item__role">{job.role}</h3>
-                      <p className="exp-item__org">{job.org}{job.link && <> (<a className="exp-item__site" href={job.link} target="_blank" rel="noopener">{job.linkLabel ?? 'Website'}</a>)</>}</p>
-                      <p className="exp-item__dates">{job.dates}{job.location && ` · ${job.location}`}</p>
-                    </div>
-                  </div>
-                  <p className="exp-item__story">{job.story}</p>
-                  <TechList tags={job.tags} />
-                </div>
-                {media && <PhotoSlots photos={job.photos} label={job.org} minSlots={0} />}
-              </article>
-            )
-          })}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Projects() {
-  const live = (projects as ProjectItem[]).filter((project) => project.status === 'live')
-  const experiments = (projects as ProjectItem[]).filter((project) => project.status === 'experiment')
-  const renderProject = (project: ProjectItem, experiment = false) => {
-    const media = project.photos?.length > 0
-    return (
-      <article className={`project ${experiment ? 'project--experiment' : ''} ${media ? 'project--media' : ''} ${project.logo ? 'project--logo' : ''} reveal is-visible`} key={project.id}>
-        <div className="project__text">
-          <div className="project__top">
-            <h3>{project.title}{project.link && project.linkLabel && <> <a className="project__title-link" href={project.link} target="_blank" rel="noopener">({project.linkLabel})</a></>}</h3>
-            {experiment && <span className="badge">Experiment</span>}
-          </div>
-          <p className="project__story">{project.story}</p>
-          <TechList tags={project.tech} />
-        </div>
-        {media && <PhotoSlots photos={project.photos} label={project.title} minSlots={1} />}
-        {project.logo && <div className="project__corner"><Image className="project__corner-logo" src={project.logo} width={150} height={150} alt="" aria-hidden="true" /></div>}
-      </article>
-    )
-  }
-
-  return (
-    <section className="section work" id="projects">
-      <div className="section__inner">
-        <SectionHeading title="Projects" lede="Things I've built to see what happens." />
-        <div className="project-list">{live.map((project) => renderProject(project))}</div>
-        <div className="experiments">
-          <h3 className="experiments__heading">Experiments</h3>
-          <p className="experiments__lede">Things I&apos;m trying — some will go nowhere. That&apos;s the point.</p>
-          <div className="project-list project-list--experiments">{experiments.map((project) => renderProject(project, true))}</div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Extracurricular() {
-  return (
-    <section className="section extracurricular" id="extracurricular">
-      <div className="section__inner">
-        <SectionHeading title="Extracurricular" lede="Community work — not a job, and not a project brief." />
-        <div className="extra-list">{(extracurricular as ExtraItem[]).map((item) => <article className="extra-item reveal is-visible" key={item.id}><h3 className="extra-item__role">{item.role}</h3><p className="extra-item__org">{item.org}</p><p className="extra-item__dates">{item.dates}</p><p className="extra-item__story">{item.story}</p><TechList tags={item.tags} /></article>)}</div>
-        <div className="beyond-block">
-          <h3 className="beyond-block__heading">{beyond.heading}</h3>
-          <p className="beyond-block__lede">{beyond.framing}</p>
-          <div className="beyond-grid">{(beyond.items as BeyondItem[]).map((item) => <article className="beyond-card reveal is-visible" key={item.id}><h3>{item.title}</h3><p>{item.blurb}</p></article>)}</div>
-        </div>
-      </div>
     </section>
   )
 }
@@ -447,10 +242,6 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <Extracurricular />
         <Contact />
       </main>
     </>
