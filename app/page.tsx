@@ -14,19 +14,6 @@ function SectionHeading({ title, lede }: { title: string; lede?: string }) {
   )
 }
 
-function RetroClock() {
-  const [time, setTime] = useState('00:00:00')
-
-  useEffect(() => {
-    const update = () => setTime(new Date().toLocaleTimeString([], { hour12: false }))
-    update()
-    const interval = window.setInterval(update, 1000)
-    return () => window.clearInterval(interval)
-  }, [])
-
-  return <span className="retro-clock__lcd">{time}</span>
-}
-
 function MailComposer() {
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState('')
@@ -133,19 +120,15 @@ function MailComposer() {
 
 function Header() {
   const links = [
-    ['Contact', 'glitch', 'contact'],
+    ['About', 'top'],
+    ['Contact', 'contact'],
   ]
 
   return (
     <header className="site-header">
-      <a className="logo logo--clock" href="#top" aria-label="Back to top">
-        <span className="retro-clock" aria-hidden="true">
-          <span className="retro-clock__bezel"><RetroClock /></span>
-        </span>
-      </a>
       <nav className="nav nav--dock" aria-label="Primary">
-        {links.map(([label, effect, id]) => (
-          <a className={`nav__item nav__item--${effect}`} href={`#${id}`} key={id} data-text={label}>
+        {links.map(([label, id]) => (
+          <a className="nav__item" href={`#${id}`} key={id}>
             {label}
           </a>
         ))}
