@@ -26,6 +26,7 @@ dist-ssr
 *.sw?
 
 # Reference screenshots / scratch (not part of the site)
+.playwright-cli/
 _references/
 *.digital_.png
 pagebuddy.app_.png
